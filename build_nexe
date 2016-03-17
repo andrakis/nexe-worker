@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# (Optional) Update your path to nexe
+NEXE="node_modules/nexe/bin/nexe"
+
+if [ ! -f $NEXE ]; then
+	echo "Nexe not found under path: $NEXE"
+	echo "Consider running \`npm install\` or updating the path to NEXE in this script"
+	exit 1
+fi
+
+mkdir -p nexe
+node $NEXE -i app.js -r 0.10.35 -o nexe/app

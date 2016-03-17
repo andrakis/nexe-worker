@@ -1,0 +1,34 @@
+{
+  "name": "nexe-worker-test",
+  "version": "0.2.0",
+  "description": "Test bundled workers from nexe",
+  "keywords": [
+    "Node.js",
+    "application",
+    "nexe"
+  ],
+  "homepage": "https://github.com/andrakis",
+  "contributors": [
+    "Julian Thatcher"
+  ],
+  "license": [
+    "Public Domain"
+  ],
+  "author": {
+    "name": "Julian Thatcher",
+    "url": "https://github.com/andrakis"
+  },
+  "engines": {
+    "node": "0.10.35",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "compute-cluster": "0.0.9",
+    "nexe": "git+https://github.com/jaredallard/nexe.git#d3973eff3412a26692e9ab5cd69a45f63f8c8029"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "bundleDependencies": [],
+  "scripts": {},
+  "main": "app.js"
+}
