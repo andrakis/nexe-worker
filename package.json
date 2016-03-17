@@ -23,7 +23,7 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "compute-cluster": "git+https://github.com/andrakis/node-compute-cluster.git#1852674",
+    "compute-cluster": "git+https://github.com/andrakis/node-compute-cluster.git#master",
     "nexe": "git+https://github.com/jaredallard/nexe.git#d3973eff3412a26692e9ab5cd69a45f63f8c8029"
   },
   "devDependencies": {},
