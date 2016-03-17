@@ -3,6 +3,7 @@
  */
 
 var child_process = require('child_process');
+var computecluster= require('compute-cluster');
 
 var worker;
 /**
@@ -13,46 +14,18 @@ if( dummyIncludeForNexe ) {
 	worker = require('./worker.js');
 }
 
-/**
- * A simple worker interface that uses child_process.fork
- */
-function Worker (worker_path) {
-	this.module = worker_path;
-}
-Worker.prototype.start = function(args) {
-	this.worker = child_process.fork(
-		this.module,
-		this.args || [],
-		{ env: this.getEnv() }
-	);
-	this.worker.on('exit', this._on_exit);
-};
-Worker.prototype._on_exit = function(code) {
-	console.log("Worker process exit: " + code);
-};
-Worker.prototype.getEnv = function() {
-	var env = {};
-	for(var i in process.env) env[i] = process.env[i];
-	delete env['NODE_WORKER_ID'];
-	delete env['NODE_UNIQUE_ID'];
-	return env;
-};
-Worker.prototype.request = function(m, callback) {
-	this.worker.once('message', function(recv) {
-		console.log("Got from worker: " + recv);
-		callback(recv);
-	});
-	this.worker.send(m);
-};
+var cc = new computecluster( { module: './worker.js',
+                               max_backlog: 5000,
+                               skip_fs_check: true,
+                               parent_pid: process.pid });
+cc.on('error', function(e) {
+	console.log("ComputeCluster Error: " + e.toString());
+});
+cc.on('info', function(i) {
+	console.log("ComputeCluster Info: " + i);
+});
 
-/**
- * Create a worker (this should get bundled into the app).
- * Send it a message and on successful reply, exit the application.
- */
-var worker = new Worker('./worker.js');
-worker.start();
-worker.request('test', function(res) {
-	console.log('Test result: ' + res);
-	console.log('Finished, exiting');
+cc.enqueue('test', function(err, res) {
+	console.log("Got from worker: " + res);
 	process.exit(0);
 });
